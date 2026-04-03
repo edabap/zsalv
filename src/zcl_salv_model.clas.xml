@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_SALV_MODEL</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>ZCL_SALV_MODEL</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_GRID</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV List Viewer</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_MODEL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ZCL_SALV_MODEL</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_PARAMETERS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ZIF_SALV_EDITING</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_EDITED_F4</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Тип таблицы для технических полей</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_EDITED_FIELDS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ZSALV_T_TECHNICAL</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MV_DELETED</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Булева переменная (X=true, space=false)</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>CHECK_CHANGED_DATA</CMPNAME>
+     <SCONAME>IO_SALV</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Basis Class for Simple Tables</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>DATA_CHANGED</CMPNAME>
+     <SCONAME>EO_DATA_CHANGED</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Message Log for Data Entry</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>F4</CMPNAME>
+     <SCONAME>ER_EVENT_DATA</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Changing Data Container for Events</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>F4</CMPNAME>
+     <SCONAME>ES_ROW_NO</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Assignment of Row Number to Row ID</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>F4</CMPNAME>
+     <SCONAME>ET_BAD_CELLS</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV Control: Table of Modified Cells for the Application</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>F4</CMPNAME>
+     <SCONAME>E_DISPLAY</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Символьне поле довжиною 1</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>F4</CMPNAME>
+     <SCONAME>E_FIELDNAME</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV control: ім&apos;я внутрішнього поля таблиці</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>F4</CMPNAME>
+     <SCONAME>E_FIELDVALUE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV Control: вміст комірки</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_GRID</CMPNAME>
+     <SCONAME>CX_SALV_ERROR</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV: General Error Class (Checked During Syntax Check)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_GRID</CMPNAME>
+     <SCONAME>IO_SALV_MODEL</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV: Basis Class Model</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_GRID</CMPNAME>
+     <SCONAME>RO_GRID</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV List Viewer</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_REFERENCE</CMPNAME>
+     <SCONAME>RESULT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ZCL_SALV_MODEL</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_TREE</CMPNAME>
+     <SCONAME>CX_SALV_ERROR</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV: General Error Class (Checked During Syntax Check)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_TREE</CMPNAME>
+     <SCONAME>IO_SALV_MODEL</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV: Basis Class Model</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_TREE</CMPNAME>
+     <SCONAME>RO_TREE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV Tree Control</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_EDITABLE</CMPNAME>
+     <SCONAME>IO_SALV</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Basis Class for Simple Tables</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_EDITABLE</CMPNAME>
+     <SCONAME>I_EDIT_MODE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Булева переменная (X=true, space=false)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SET_EDITABLE</CMPNAME>
+     <SCONAME>ZCX_SALV</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>SALV</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

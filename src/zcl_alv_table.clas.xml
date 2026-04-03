@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_ALV_TABLE</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>Редактируемый ALV</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>BUILD_FIELDCATALOG</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Инициализация каталога полей</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>BUILD_FIELDCATALOG</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Инициализация каталога полей</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Конструктор</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Конструктор</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Создать ALV</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Создать ALV</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>FREE_ALV</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Удалить ALV и контейнер</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>FREE_ALV</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Удалить ALV и контейнер</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_ALV_MODE</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Получить режим ALV отчёта</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_ALV_MODE</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Получить режим ALV отчёта</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HANDLE_DATA_CHANGED</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Обработка изменений данных</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HANDLE_DATA_CHANGED</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Обработка изменений данных</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HANDLE_DOUBLE_CLICK</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Обработка двойного щелчка</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HANDLE_DOUBLE_CLICK</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Обработка двойного щелчка</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HANDLE_USER_COMMAND</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Обработка действий пользователя</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HANDLE_USER_COMMAND</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Обработка действий пользователя</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_ALV</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>ALV для вывода</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_ALV</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV для вывода</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_CONTAINER</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Abstract Container for GUI Controls</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_CONTAINER</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Abstract Container for GUI Controls</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MTT_FIELDS</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Список полей структуры</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MTT_FIELDS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Список полей структуры</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_FIELDCATALOG</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Каталог полей ListViewerControl</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_FIELDCATALOG</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Каталог полей ListViewerControl</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_MODES</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Таблица режимов ALV</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MT_MODES</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Таблица режимов ALV</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MV_CURRENT_MODE_IND</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Индекс текущего режима (в таблице режимов)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MV_CURRENT_MODE_IND</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Индекс текущего режима (в таблице режимов)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SET_ALV_MODE</CMPNAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Установить режим ALV отчёта</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SET_ALV_MODE</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Установить режим ALV отчёта</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>BUILD_FIELDCATALOG</CMPNAME>
+     <SCONAME>IV_STRUCTURE_NAME</SCONAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Имя таблицы</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>BUILD_FIELDCATALOG</CMPNAME>
+     <SCONAME>IV_STRUCTURE_NAME</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Имя таблицы</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>CX_SALV_MSG</SCONAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>ALV: General Error Class with Message</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>CX_SALV_MSG</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ALV: General Error Class with Message</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>IT_EXTTAB</SCONAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Исключить функции</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>IT_EXTTAB</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Исключить функции</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>IT_MODES</SCONAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Режимы работы ALV</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>IT_MODES</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Режимы работы ALV</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>IV_CONTAINER_NAME</SCONAME>
+     <LANGU>8</LANGU>
+     <DESCRIPT>Abstract Container for GUI Controls</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_ALV</CMPNAME>
+     <SCONAME>IV_CONTAINER_NAME</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Abstract Container for GUI Controls</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

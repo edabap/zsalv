@@ -24,17 +24,13 @@ CLASS lcl_salv_model_list IMPLEMENTATION.
 
 
   METHOD get_grid.
-    DATA:
-      lo_grid_adapter       TYPE REF TO cl_salv_grid_adapter,
-      lo_fullscreen_adapter TYPE REF TO cl_salv_fullscreen_adapter,
-      lo_root               TYPE REF TO cx_root.
 
     TRY.
-        lo_grid_adapter ?= io_salv_model->r_controller->r_adapter.
-      CATCH cx_root INTO lo_root.
+        DATA(lo_grid_adapter) = CAST cl_salv_grid_adapter( io_salv_model->r_controller->r_adapter ).
+      CATCH cx_root.
         TRY.
-            lo_fullscreen_adapter ?= io_salv_model->r_controller->r_adapter.
-          CATCH cx_root INTO lo_root.
+            DATA(lo_fullscreen_adapter) = CAST cl_salv_fullscreen_adapter( io_salv_model->r_controller->r_adapter ).
+          CATCH cx_root INTO DATA(lo_root).
             RAISE EXCEPTION TYPE cx_salv_msg
               EXPORTING
                 previous = lo_root
@@ -61,13 +57,10 @@ CLASS lcl_salv_model_list IMPLEMENTATION.
 
 
   METHOD get_tree.
-    DATA:
-      lo_tree_adapter TYPE REF TO cl_salv_tree_adapter,
-      lo_root         TYPE REF TO cx_root.
 
     TRY.
-        lo_tree_adapter ?= io_salv_model->r_controller->r_adapter.
-      CATCH cx_root INTO lo_root.
+        DATA(lo_tree_adapter) = CAST cl_salv_tree_adapter( io_salv_model->r_controller->r_adapter ).
+      CATCH cx_root INTO DATA(lo_root).
         RAISE EXCEPTION TYPE cx_salv_msg
           EXPORTING
             previous = lo_root

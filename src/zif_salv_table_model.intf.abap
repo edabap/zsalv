@@ -4,24 +4,24 @@ INTERFACE zif_salv_table_model
   CONSTANTS cv_double_click TYPE salv_de_function VALUE '&IC1' ##NO_TEXT.
   CONSTANTS:
     BEGIN OF cs_standart_tb_profile,
-      minimum     TYPE zsalv_standart_tb_profile VALUE '0',
-      default     TYPE zsalv_standart_tb_profile VALUE '4',
-      with_export TYPE zsalv_standart_tb_profile VALUE '5',
-      maximum     TYPE zsalv_standart_tb_profile VALUE '9',
+      minimum     TYPE zsalv_d_standart_tb_profile VALUE '0',
+      default     TYPE zsalv_d_standart_tb_profile VALUE '4',
+      with_export TYPE zsalv_d_standart_tb_profile VALUE '5',
+      maximum     TYPE zsalv_d_standart_tb_profile VALUE '9',
     END OF cs_standart_tb_profile.
   CONSTANTS:
     BEGIN OF cs_edit_tb_profile,
-      none         TYPE zsalv_editing_tb_profile VALUE '0',
-      minimum      TYPE zsalv_editing_tb_profile VALUE '1',
-      minimum_text TYPE zsalv_editing_tb_profile VALUE '2',
-      min_add      TYPE zsalv_editing_tb_profile VALUE '3',
-      min_add_text TYPE zsalv_editing_tb_profile VALUE '4',
-      default      TYPE zsalv_editing_tb_profile VALUE '5',
-      default_text TYPE zsalv_editing_tb_profile VALUE '6',
-      def_add      TYPE zsalv_editing_tb_profile VALUE '7',
-      def_add_text TYPE zsalv_editing_tb_profile VALUE '8',
-      maximum      TYPE zsalv_editing_tb_profile VALUE '9',
-      maximum_text TYPE zsalv_editing_tb_profile VALUE 'A',
+      none         TYPE zsalv_d_editing_tb_profile VALUE '0',
+      minimum      TYPE zsalv_d_editing_tb_profile VALUE '1',
+      minimum_text TYPE zsalv_d_editing_tb_profile VALUE '2',
+      min_add      TYPE zsalv_d_editing_tb_profile VALUE '3',
+      min_add_text TYPE zsalv_d_editing_tb_profile VALUE '4',
+      default      TYPE zsalv_d_editing_tb_profile VALUE '5',
+      default_text TYPE zsalv_d_editing_tb_profile VALUE '6',
+      def_add      TYPE zsalv_d_editing_tb_profile VALUE '7',
+      def_add_text TYPE zsalv_d_editing_tb_profile VALUE '8',
+      maximum      TYPE zsalv_d_editing_tb_profile VALUE '9',
+      maximum_text TYPE zsalv_d_editing_tb_profile VALUE 'A',
     END OF cs_edit_tb_profile.
 
   EVENTS user_command_received

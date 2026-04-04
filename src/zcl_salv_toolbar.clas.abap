@@ -70,7 +70,7 @@ CLASS zcl_salv_toolbar IMPLEMENTATION.
 
   METHOD class_constructor.
 
-    CREATE OBJECT mo_salv_toolbar TYPE zcl_salv_toolbar.
+    mo_salv_toolbar = NEW #( ).
 
   ENDMETHOD.
 

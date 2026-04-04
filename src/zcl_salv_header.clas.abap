@@ -38,7 +38,7 @@ CLASS zcl_salv_header IMPLEMENTATION.
 
   METHOD constructor.
 
-    CREATE OBJECT mo_header.
+    mo_header = NEW #( ).
 
   ENDMETHOD.
 
@@ -54,26 +54,32 @@ CLASS zcl_salv_header IMPLEMENTATION.
 
     LOOP AT ir_data ASSIGNING FIELD-SYMBOL(<ls_data>).
       ASSIGN COMPONENT 'SIGN' OF STRUCTURE <ls_data> TO FIELD-SYMBOL(<lv_sign>).
-      CHECK sy-subrc = 0.
+      IF sy-subrc <> 0.
+        CONTINUE.
+      ENDIF.
 
       ASSIGN COMPONENT 'LOW' OF STRUCTURE <ls_data> TO FIELD-SYMBOL(<lv_low>).
-      CHECK sy-subrc = 0.
+      IF sy-subrc <> 0.
+        CONTINUE.
+      ENDIF.
 
       ASSIGN COMPONENT 'HIGH' OF STRUCTURE <ls_data> TO FIELD-SYMBOL(<lv_high>).
-      CHECK sy-subrc = 0.
+      IF sy-subrc <> 0.
+        CONTINUE.
+      ENDIF.
 
       IF result IS NOT INITIAL.
-        CONCATENATE result ', ' INTO result.
+        result = |{ result }, |.
       ENDIF.
 
       IF <lv_sign> = 'E'.
-        CONCATENATE result 'Excl. ' INTO result.
+        result = |{ result }Excl. |.
       ENDIF.
 
-      CONCATENATE result <lv_low> INTO result.
+      result = |{ result }{ <lv_low> }|.
 
       IF <lv_high> IS NOT INITIAL.
-        CONCATENATE result ' - ' <lv_high> INTO result.
+        result = |{ result } - { <lv_high> }|.
       ENDIF.
     ENDLOOP.
 

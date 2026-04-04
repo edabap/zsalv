@@ -136,7 +136,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD as_button.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -150,7 +153,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD as_checkbox.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -164,7 +170,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD as_dropdown.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -178,7 +187,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD as_hotspot.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -192,7 +204,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD as_link.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -206,7 +221,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD as_text.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -220,14 +238,17 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD class_constructor.
 
-    CREATE OBJECT mo_columns.
+    mo_columns = NEW #( ).
 
   ENDMETHOD.
 
 
   METHOD color.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -241,7 +262,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD column_position.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -255,7 +279,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD editable.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -269,7 +296,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD entry_column.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -283,7 +313,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD exception.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -297,7 +330,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD exception_group.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -311,7 +347,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD f4.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -325,7 +364,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD f4_reference.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -341,7 +383,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD fix.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -355,7 +400,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD group.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -369,7 +417,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD hide.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -383,7 +434,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD icon.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -405,7 +459,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD length.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -419,7 +476,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD long_text.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -433,7 +493,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD medium_text.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -447,7 +510,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD no_f4.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -461,7 +527,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD optimize.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -482,7 +551,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD set_column.
 
-    CHECK iv_columnname IS NOT INITIAL.
+    IF iv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     mv_columnname = iv_columnname.
 
@@ -498,7 +570,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD short_text.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -512,7 +587,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD subtotal.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.
@@ -526,7 +604,10 @@ CLASS zcl_salv_columns IMPLEMENTATION.
 
   METHOD tooltip.
 
-    CHECK mv_columnname IS NOT INITIAL.
+    IF mv_columnname IS INITIAL.
+      ro_columns = me.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_data ASSIGNING FIELD-SYMBOL(<ls_data>) WITH KEY columnname = mv_columnname.
     IF sy-subrc = 0.

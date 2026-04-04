@@ -76,11 +76,6 @@ CLASS zcl_alv_table IMPLEMENTATION.
 
 
   METHOD build_fieldcatalog.
-    DATA:
-      lo_tabdescr TYPE REF TO cl_abap_structdescr,
-      lt_dfies    TYPE ddfields,
-      lo_line     TYPE REF TO data.
-    FIELD-SYMBOLS <lt_table> TYPE ANY TABLE.
 
     CLEAR mt_fieldcatalog.
 
@@ -96,14 +91,13 @@ CLASS zcl_alv_table IMPLEMENTATION.
           program_error          = 2
           OTHERS                 = 3.
     ELSE.
-      ASSIGN mref_dtab->* TO <lt_table>.
-      CREATE DATA lo_line LIKE LINE OF <lt_table>.
-      lo_tabdescr ?= cl_abap_structdescr=>describe_by_data_ref( lo_line ).
-      lt_dfies = cl_salv_data_descr=>read_structdescr( lo_tabdescr ).
+      ASSIGN mref_dtab->* TO FIELD-SYMBOL(<lt_table>).
+      DATA(lo_line) = NEW data LIKE LINE OF <lt_table>.
+      DATA(lo_tabdescr) = CAST cl_abap_structdescr( cl_abap_structdescr=>describe_by_data_ref( lo_line ) ).
+      DATA(lt_dfies) = cl_salv_data_descr=>read_structdescr( lo_tabdescr ).
 
       LOOP AT lt_dfies ASSIGNING FIELD-SYMBOL(<ls_dfies>).
-        APPEND INITIAL LINE TO mt_fieldcatalog ASSIGNING FIELD-SYMBOL(<ls_fieldcat>).
-        MOVE-CORRESPONDING <ls_dfies> TO <ls_fieldcat>.
+        APPEND CORRESPONDING lvc_s_fcat( <ls_dfies> ) TO mt_fieldcatalog.
       ENDLOOP.
     ENDIF.
   ENDMETHOD.
@@ -112,26 +106,19 @@ CLASS zcl_alv_table IMPLEMENTATION.
   METHOD constructor.
 
     CLEAR: mt_modes, mv_current_mode_ind.
-
-    IF iref_dtab IS SUPPLIED.
-      mref_dtab = iref_dtab.
-    ENDIF.
+    mref_dtab = iref_dtab.
 
   ENDMETHOD.
 
 
   METHOD create_alv.
-    DATA:
-      ls_layout TYPE lvc_s_layo,
-      ls_var    TYPE disvariant,
-      lt_sort   TYPE lvc_t_sort.
-    FIELD-SYMBOLS <lt_dtab> TYPE STANDARD TABLE.
+    DATA lt_sort TYPE lvc_t_sort.
 
     IF it_modes IS SUPPLIED.
       mt_modes = it_modes.
     ENDIF.
 
-    ASSIGN mref_dtab->* TO <lt_dtab>.
+    ASSIGN mref_dtab->* TO FIELD-SYMBOL(<lt_dtab>).
 
     IF iv_container_name IS INITIAL.
       mo_container = cl_gui_container=>screen0.
@@ -139,10 +126,14 @@ CLASS zcl_alv_table IMPLEMENTATION.
       mo_container = NEW cl_gui_custom_container( container_name = iv_container_name ).
     ENDIF.
 
-    CHECK mo_container IS BOUND.
+    IF mo_container IS NOT BOUND.
+      RETURN.
+    ENDIF.
 
     mo_alv = NEW #( i_parent = mo_container ).
-    CHECK mo_alv IS BOUND.
+    IF mo_alv IS NOT BOUND.
+      RETURN.
+    ENDIF.
 
     build_fieldcatalog( ).
 
@@ -154,11 +145,11 @@ CLASS zcl_alv_table IMPLEMENTATION.
       EXPORTING
         i_event_id = cl_gui_alv_grid=>mc_evt_modified ).
 
-    ls_layout-sel_mode = zif_salv=>gc_layout_sel_mode_a.
-    ls_layout-zebra    = abap_true.
+    DATA(ls_layout) = VALUE lvc_s_layo( sel_mode = zif_salv=>gc_layout_sel_mode_a
+                                        zebra    = abap_true ).
 
-    ls_var-report = sy-repid.
-    ls_var-handle = zif_salv=>gc_var_handle.
+    DATA(ls_var) = VALUE disvariant( report = sy-repid
+                                     handle = zif_salv=>gc_var_handle ).
 
     mo_alv->set_table_for_first_display(
       EXPORTING
@@ -191,7 +182,9 @@ CLASS zcl_alv_table IMPLEMENTATION.
   METHOD get_alv_mode.
 
     CLEAR rs_mode.
-    CHECK mt_modes IS NOT INITIAL.
+    IF mt_modes IS INITIAL.
+      RETURN.
+    ENDIF.
 
     READ TABLE mt_modes ASSIGNING FIELD-SYMBOL(<ls_mode>) INDEX mv_current_mode_ind.
     IF sy-subrc = 0.
@@ -214,14 +207,12 @@ CLASS zcl_alv_table IMPLEMENTATION.
 
 
   METHOD set_alv_mode.
-    DATA:
-      lv_fieldcat_changed TYPE abap_bool,
-      ls_stable           TYPE lvc_s_stbl.
-    FIELD-SYMBOLS:
-      <ls_mode>     TYPE mts_mode,
-      <ls_fieldcat> TYPE lvc_s_fcat.
+    DATA lv_fieldcat_changed TYPE abap_bool.
+    FIELD-SYMBOLS <ls_mode> TYPE mts_mode.
 
-    CHECK mt_modes IS NOT INITIAL.
+    IF mt_modes IS INITIAL.
+      RETURN.
+    ENDIF.
 
     IF iv_mode_name IS NOT INITIAL.
       READ TABLE mt_modes ASSIGNING <ls_mode> WITH KEY mode_name = iv_mode_name.
@@ -235,11 +226,13 @@ CLASS zcl_alv_table IMPLEMENTATION.
       READ TABLE mt_modes ASSIGNING <ls_mode> INDEX mv_current_mode_ind.
     ENDIF.
 
-    CHECK sy-subrc = 0.
+    IF sy-subrc <> 0.
+      RETURN.
+    ENDIF.
 
     lv_fieldcat_changed = abap_false.
 
-    LOOP AT mt_fieldcatalog ASSIGNING <ls_fieldcat>.
+    LOOP AT mt_fieldcatalog ASSIGNING FIELD-SYMBOL(<ls_fieldcat>).
       IF line_exists( <ls_mode>-edit_fields[ table_line = <ls_fieldcat>-fieldname ] ).
         IF <ls_fieldcat>-edit <> abap_on.
           lv_fieldcat_changed = abap_true.
@@ -253,8 +246,7 @@ CLASS zcl_alv_table IMPLEMENTATION.
 
     IF lv_fieldcat_changed = abap_true.
       mo_alv->set_frontend_fieldcatalog( mt_fieldcatalog ).
-      ls_stable-row = abap_on.
-      ls_stable-col = abap_on.
+      DATA(ls_stable) = VALUE lvc_s_stbl( row = abap_on col = abap_on ).
       mo_alv->refresh_table_display(
         i_soft_refresh = abap_on
         is_stable      = ls_stable ).

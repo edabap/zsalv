@@ -7,20 +7,20 @@ public section.
   constants CV_DOUBLE_CLICK type SALV_DE_FUNCTION value '&IC1' ##NO_TEXT.
   constants:
     BEGIN OF cs_standart_tb_profile,
-        minimum     TYPE zsalv_standart_tb_profile VALUE '0',
-        default     TYPE zsalv_standart_tb_profile VALUE '4',
-        with_export TYPE zsalv_standart_tb_profile VALUE '5',
-        maximum     TYPE zsalv_standart_tb_profile VALUE '9',
+        minimum     TYPE zsalv_d_standart_tb_profile VALUE '0',
+        default     TYPE zsalv_d_standart_tb_profile VALUE '4',
+        with_export TYPE zsalv_d_standart_tb_profile VALUE '5',
+        maximum     TYPE zsalv_d_standart_tb_profile VALUE '9',
       END OF cs_standart_tb_profile .
   constants:
     BEGIN OF cs_edit_tb_profile,
-        none         TYPE zsalv_editing_tb_profile VALUE '0',
-        minimum      TYPE zsalv_editing_tb_profile VALUE '1',
-        minimum_text TYPE zsalv_editing_tb_profile VALUE '2',
-        default      TYPE zsalv_editing_tb_profile VALUE '3',
-        default_text TYPE zsalv_editing_tb_profile VALUE '4',
-        maximum      TYPE zsalv_editing_tb_profile VALUE '5',
-        maximum_text TYPE zsalv_editing_tb_profile VALUE '6',
+        none         TYPE zsalv_d_editing_tb_profile VALUE '0',
+        minimum      TYPE zsalv_d_editing_tb_profile VALUE '1',
+        minimum_text TYPE zsalv_d_editing_tb_profile VALUE '2',
+        default      TYPE zsalv_d_editing_tb_profile VALUE '3',
+        default_text TYPE zsalv_d_editing_tb_profile VALUE '4',
+        maximum      TYPE zsalv_d_editing_tb_profile VALUE '5',
+        maximum_text TYPE zsalv_d_editing_tb_profile VALUE '6',
       END OF cs_edit_tb_profile .
 
   events USER_COMMAND_RECEIVED
@@ -429,20 +429,19 @@ CLASS ZCL_SALV_TABLE IMPLEMENTATION.
 
 
 METHOD add_aggregation.
-  DATA lo_exception TYPE REF TO cx_salv_error.
 
   TRY.
       mo_aggregations->remove_aggregation( columnname  = iv_columnname ).
 
       mo_aggregations->add_aggregation( columnname  = iv_columnname
-                                        aggregation = iv_aggregation ). "if_salv_c_aggregation=>maximum
-      IF iv_top EQ if_salv_c_bool_sap=>true.
+                                        aggregation = iv_aggregation ).
+      IF iv_top = if_salv_c_bool_sap=>true.
         mo_aggregations->set_aggregation_before_items( ).
       ENDIF.
 
     CATCH cx_salv_data_error
           cx_salv_not_found
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -453,7 +452,6 @@ ENDMETHOD.
 
 
 METHOD add_column.
-  DATA lo_exception TYPE REF TO cx_salv_error.
 
   TRY.
 
@@ -464,9 +462,9 @@ METHOD add_column.
       ENDIF.
 
       IF iv_entry_column IS NOT INITIAL.
-        IF iv_type EQ if_salv_c_cell_type=>dropdown.
+        IF iv_type = if_salv_c_cell_type=>dropdown.
           mo_columns->set_dropdown_entry_column( iv_entry_column ).
-        ELSEIF iv_type EQ if_salv_c_cell_type=>link.
+        ELSEIF iv_type = if_salv_c_cell_type=>link.
           mo_columns->set_hyperlink_entry_column( iv_entry_column ).
         ENDIF.
       ENDIF.
@@ -476,7 +474,7 @@ METHOD add_column.
                                          position   = iv_column_position ).
       ENDIF.
 
-      mo_column ?= mo_columns->get_column( iv_columnname ).
+      mo_column = CAST cl_salv_column_table( mo_columns->get_column( iv_columnname ) ).
       mo_column->set_cell_type( iv_type ).
 
       IF iv_hide IS NOT INITIAL.
@@ -529,12 +527,11 @@ METHOD add_column.
         mo_column->set_ddic_reference( iv_f4_reference ).
       ENDIF.
 
-      CASE abap_true.
-        WHEN iv_f4.
-          mo_column->set_f4( if_salv_c_bool_sap=>true ).
-        WHEN iv_no_f4.
-          mo_column->set_f4( if_salv_c_bool_sap=>false ).
-      ENDCASE.
+      IF iv_f4 = abap_true.
+        mo_column->set_f4( if_salv_c_bool_sap=>true ).
+      ELSEIF iv_no_f4 = abap_true.
+        mo_column->set_f4( if_salv_c_bool_sap=>false ).
+      ENDIF.
 
       IF iv_optimize IS NOT INITIAL.
         mo_column->set_optimized( if_salv_c_bool_sap=>true ).
@@ -542,7 +539,7 @@ METHOD add_column.
 
     CATCH cx_salv_not_found
           cx_salv_data_error
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -552,17 +549,18 @@ METHOD add_column.
 ENDMETHOD.
 
 
-METHOD ADD_COLUMN_COLOR.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_column_color.
 
-  CHECK iv_columnname IS NOT INITIAL.
+  IF iv_columnname IS INITIAL.
+    RETURN.
+  ENDIF.
 
   TRY.
       mo_columns->set_color_column( iv_columnname ).
 
     CATCH cx_salv_not_found
           cx_salv_data_error
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -572,17 +570,18 @@ METHOD ADD_COLUMN_COLOR.
 ENDMETHOD.
 
 
-METHOD ADD_COLUMN_STYLE.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_column_style.
 
-  CHECK iv_columnname IS NOT INITIAL.
+  IF iv_columnname IS INITIAL.
+    RETURN.
+  ENDIF.
 
   TRY.
       mo_columns->set_cell_type_column( iv_columnname ).
 
     CATCH cx_salv_not_found
           cx_salv_data_error
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -592,16 +591,15 @@ METHOD ADD_COLUMN_STYLE.
 ENDMETHOD.
 
 
-METHOD ADD_COLUMN_TECHNICAL.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_column_technical.
 
   TRY.
-      mo_column ?= mo_columns->get_column( iv_columnname ).
+      mo_column = CAST cl_salv_column_table( mo_columns->get_column( iv_columnname ) ).
       mo_column->set_technical( if_salv_c_bool_sap=>true ).
 
     CATCH cx_salv_not_found
           cx_salv_data_error
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -611,8 +609,7 @@ METHOD ADD_COLUMN_TECHNICAL.
 ENDMETHOD.
 
 
-METHOD ADD_DROPDOWN.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_dropdown.
 
   TRY.
       mo_dropdowns->remove_dropdown( handle   = iv_handle ).
@@ -622,7 +619,7 @@ METHOD ADD_DROPDOWN.
 
     CATCH cx_salv_not_found
           cx_salv_existing
-          cx_salv_data_error INTO lo_exception.
+          cx_salv_data_error INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -632,8 +629,7 @@ METHOD ADD_DROPDOWN.
 ENDMETHOD.
 
 
-METHOD ADD_FILTER.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_filter.
 
   TRY.
       mo_filters->remove_filter( columnname = iv_columnname ).
@@ -646,7 +642,7 @@ METHOD ADD_FILTER.
 
     CATCH cx_salv_not_found
           cx_salv_data_error
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -657,12 +653,11 @@ ENDMETHOD.
 
 
 METHOD add_function.
-  DATA lo_exception TYPE REF TO cx_salv_error.
 
   TRY.
       mo_functions = mo_alv->get_functions( ).
 
-      IF mo_functions->is_item( iv_function ) EQ if_salv_c_bool_sap=>false.
+      IF mo_functions->is_item( iv_function ) = if_salv_c_bool_sap=>false.
         mo_functions->add_function( name     = iv_function
                                     icon     = iv_icon
                                     text     = iv_text
@@ -671,7 +666,7 @@ METHOD add_function.
       ENDIF.
 
     CATCH cx_salv_wrong_call
-          cx_salv_existing INTO lo_exception.
+          cx_salv_existing INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -681,8 +676,7 @@ METHOD add_function.
 ENDMETHOD.
 
 
-METHOD ADD_HYPERLINK.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_hyperlink.
 
   TRY.
       mo_hyperlinks->add_hyperlink( handle    = iv_handle
@@ -690,7 +684,7 @@ METHOD ADD_HYPERLINK.
 
     CATCH cx_salv_not_found
           cx_salv_existing
-          cx_salv_data_error INTO lo_exception.
+          cx_salv_data_error INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -701,14 +695,10 @@ ENDMETHOD.
 
 
 METHOD add_sort.
-  DATA lo_exception TYPE REF TO cx_salv_error.
-  DATA lv_sequence TYPE salv_de_sort_sequence.
 
-  IF iv_descending = if_salv_c_bool_sap=>true.
-    lv_sequence = if_salv_c_sort=>sort_down.
-  ELSE.
-    lv_sequence = if_salv_c_sort=>sort_up.
-  ENDIF.
+  DATA(lv_sequence) = COND salv_de_sort_sequence( WHEN iv_descending = if_salv_c_bool_sap=>true
+                                                   THEN if_salv_c_sort=>sort_down
+                                                   ELSE if_salv_c_sort=>sort_up ).
 
   TRY.
       mo_sorts->remove_sort( columnname = iv_columnname ).
@@ -722,7 +712,7 @@ METHOD add_sort.
 
     CATCH cx_salv_not_found
           cx_salv_existing
-          cx_salv_data_error INTO lo_exception.
+          cx_salv_data_error INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -732,8 +722,7 @@ METHOD add_sort.
 ENDMETHOD.
 
 
-METHOD ADD_SPECIFIC_GROUP.
-  DATA lo_exception TYPE REF TO cx_salv_error.
+METHOD add_specific_group.
 
   TRY.
       mo_specific_groups->add_specific_group( id   = iv_id
@@ -741,7 +730,7 @@ METHOD ADD_SPECIFIC_GROUP.
 
     CATCH cx_salv_not_found
           cx_salv_existing
-          cx_salv_data_error INTO lo_exception.
+          cx_salv_data_error INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -752,7 +741,6 @@ ENDMETHOD.
 
 
 METHOD add_tooltip.
-  DATA lo_exception TYPE REF TO cx_salv_error.
 
   TRY.
       mo_tooltips->remove_tooltip( type  = iv_type
@@ -764,7 +752,7 @@ METHOD add_tooltip.
 
     CATCH cx_salv_not_found
           cx_salv_existing
-          cx_salv_data_error INTO lo_exception.
+          cx_salv_data_error INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -774,7 +762,7 @@ METHOD add_tooltip.
 ENDMETHOD.
 
 
-METHOD CHECK_CHANGED_DATA.
+METHOD check_changed_data.
 
   IF mo_alv IS BOUND.
     zcl_salv_model=>get_reference( )->check_changed_data( mo_alv ).
@@ -785,34 +773,32 @@ ENDMETHOD.
 
 METHOD create_container.
 
-  CHECK iv_container_name IS NOT INITIAL.
+  IF iv_container_name IS INITIAL.
+    RETURN.
+  ENDIF.
 
-  IF cl_salv_table=>is_offline( ) EQ if_salv_c_bool_sap=>false.
+  IF cl_salv_table=>is_offline( ) = if_salv_c_bool_sap=>false.
     ro_container = NEW cl_gui_custom_container( container_name = |{ iv_container_name }| ).
-
   ENDIF.
 
 ENDMETHOD.
 
 
 METHOD display.
-  DATA ls_stable_refresh TYPE lvc_s_stbl.
-  DATA lo_model TYPE REF TO zcl_salv_model.
 
   CASE mv_refresh.
     WHEN if_salv_c_bool_sap=>false.
       mo_alv->display( ).
 
     WHEN if_salv_c_bool_sap=>true.
-      ls_stable_refresh-row = if_salv_c_bool_sap=>true.
-      ls_stable_refresh-col = if_salv_c_bool_sap=>true.
-
+      DATA(ls_stable_refresh) = VALUE lvc_s_stbl( row = if_salv_c_bool_sap=>true
+                                                   col = if_salv_c_bool_sap=>true ).
       mo_alv->refresh( s_stable = ls_stable_refresh refresh_mode = if_salv_c_refresh=>full ).
   ENDCASE.
   cl_gui_cfw=>flush( ).
 
-  IF mv_editable EQ if_salv_c_bool_sap=>true.
-    lo_model = zcl_salv_model=>get_reference( ).
+  IF mv_editable = if_salv_c_bool_sap=>true.
+    DATA(lo_model) = zcl_salv_model=>get_reference( ).
 
     lo_model->mo_data                = mo_data.
     lo_model->mo_parameters          = mo_editing.
@@ -829,39 +815,41 @@ METHOD display.
 ENDMETHOD.
 
 
-METHOD FREE.
+METHOD free.
 
-  FREE: mo_data
-        , mo_aggregations
-        , mo_alv
-        , mo_column
-        , mo_columns
-        , mo_container
-        , mo_display_settings
-        , mo_dropdowns
-        , mo_error
-        , mo_events
-        , mo_exception
-        , mo_filters
-        , mo_functional_settings
-        , mo_functions
-        , mo_hyperlinks
-        , mo_layout
-        , mo_selections
-        , mo_sorts
-        , mo_specific_groups
-        , mo_tooltips
-        , mo_editing
-        , mo_toolbar
-        , mt_edited_fields
-        , mt_edited_f4.
+  FREE: mo_data,
+        mo_aggregations,
+        mo_alv,
+        mo_column,
+        mo_columns,
+        mo_container,
+        mo_display_settings,
+        mo_dropdowns,
+        mo_error,
+        mo_events,
+        mo_exception,
+        mo_filters,
+        mo_functional_settings,
+        mo_functions,
+        mo_hyperlinks,
+        mo_layout,
+        mo_selections,
+        mo_sorts,
+        mo_specific_groups,
+        mo_tooltips,
+        mo_editing,
+        mo_toolbar,
+        mt_edited_fields,
+        mt_edited_f4.
 
 ENDMETHOD.
 
 
 METHOD get_selected_rows.
 
-  CHECK mo_alv IS BOUND.
+  IF mo_alv IS NOT BOUND.
+    RETURN.
+  ENDIF.
 
   mo_selections = mo_alv->get_selections( ).
   mo_alv->get_metadata( ).
@@ -872,8 +860,6 @@ ENDMETHOD.
 
 
 METHOD initialize.
-  DATA lo_exception TYPE REF TO cx_salv_error.
-  FIELD-SYMBOLS <ft_data> TYPE ANY TABLE.
 
   IF io_data IS NOT BOUND.
     RAISE EXCEPTION TYPE zcx_salv
@@ -882,7 +868,7 @@ METHOD initialize.
   ENDIF.
 
   mo_data = io_data.
-  ASSIGN mo_data->* TO <ft_data>.
+  ASSIGN mo_data->* TO FIELD-SYMBOL(<ft_data>).
   IF <ft_data> IS NOT ASSIGNED.
     RAISE EXCEPTION TYPE zcx_salv
       EXPORTING
@@ -892,7 +878,7 @@ METHOD initialize.
   IF mo_alv IS NOT BOUND.
     IF io_container IS BOUND.
       mo_container = io_container.
-    ELSEIF io_container IS NOT BOUND.
+    ELSE.
       mo_container = create_container( iv_container_name ).
     ENDIF.
 
@@ -908,7 +894,7 @@ METHOD initialize.
                                   CHANGING  t_table      = <ft_data> ).
         ENDIF.
 
-      CATCH cx_salv_msg INTO lo_exception.
+      CATCH cx_salv_msg INTO DATA(lo_exception).
         RAISE EXCEPTION TYPE zcx_salv
           EXPORTING
             error_text = |{ lo_exception->get_text( ) }|
@@ -917,7 +903,6 @@ METHOD initialize.
 
     mv_refresh = if_salv_c_bool_sap=>false.
   ELSE.
-
     mv_refresh = if_salv_c_bool_sap=>true.
   ENDIF.
 
@@ -935,16 +920,12 @@ METHOD on_data_changed.
 ENDMETHOD.
 
 
-METHOD ON_DOUBLE_CLICK.
-  DATA: lt_rows   TYPE salv_t_row,
-        lt_cols   TYPE salv_t_column.
+METHOD on_double_click.
 
-  IF row IS NOT INITIAL.
-    APPEND row    TO lt_rows.
-  ENDIF.
-  IF column IS NOT INITIAL.
-    APPEND column TO lt_cols.
-  ENDIF.
+  DATA(lt_rows) = VALUE salv_t_row( ( COND #( WHEN row IS NOT INITIAL THEN row ) ) ).
+  DELETE lt_rows WHERE table_line IS INITIAL.
+  DATA(lt_cols) = VALUE salv_t_column( ( COND #( WHEN column IS NOT INITIAL THEN column ) ) ).
+  DELETE lt_cols WHERE table_line IS INITIAL.
 
   RAISE EVENT user_command_received
     EXPORTING e_user_command = cv_double_click
@@ -968,16 +949,12 @@ METHOD on_f4.
 ENDMETHOD.
 
 
-METHOD ON_LINK_CLICK.
-  DATA: lt_rows   TYPE salv_t_row,
-        lt_cols   TYPE salv_t_column.
+METHOD on_link_click.
 
-  IF row IS NOT INITIAL.
-    APPEND row    TO lt_rows.
-  ENDIF.
-  IF column IS NOT INITIAL.
-    APPEND column TO lt_cols.
-  ENDIF.
+  DATA(lt_rows) = VALUE salv_t_row( ( COND #( WHEN row IS NOT INITIAL THEN row ) ) ).
+  DELETE lt_rows WHERE table_line IS INITIAL.
+  DATA(lt_cols) = VALUE salv_t_column( ( COND #( WHEN column IS NOT INITIAL THEN column ) ) ).
+  DELETE lt_cols WHERE table_line IS INITIAL.
 
   RAISE EVENT user_command_received
     EXPORTING e_user_command = cv_double_click
@@ -988,12 +965,10 @@ ENDMETHOD.
 
 
 METHOD on_user_command.
-  DATA: lt_rows TYPE salv_t_row,
-        lt_cols TYPE salv_t_column.
 
   mo_selections = mo_alv->get_selections( ).
-  lt_rows = mo_selections->get_selected_rows( ).
-  lt_cols = mo_selections->get_selected_columns( ).
+  DATA(lt_rows) = mo_selections->get_selected_rows( ).
+  DATA(lt_cols) = mo_selections->get_selected_columns( ).
 
   RAISE EVENT user_command_received
     EXPORTING e_user_command = e_salv_function
@@ -1004,26 +979,25 @@ ENDMETHOD.
 
 
 METHOD refresh.
-  DATA ls_stable_refresh TYPE lvc_s_stbl.
 
-  CHECK mo_alv IS BOUND.
+  IF mo_alv IS NOT BOUND.
+    RETURN.
+  ENDIF.
 
-  ls_stable_refresh-row = if_salv_c_bool_sap=>true.
-  ls_stable_refresh-col = if_salv_c_bool_sap=>true.
-
+  DATA(ls_stable_refresh) = VALUE lvc_s_stbl( row = if_salv_c_bool_sap=>true
+                                               col = if_salv_c_bool_sap=>true ).
   mo_alv->refresh( s_stable = ls_stable_refresh ).
 
 ENDMETHOD.
 
 
 METHOD set_aggregations.
-  DATA ls_aggregation LIKE LINE OF it_aggregation.
 
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
     mo_aggregations = mo_alv->get_aggregations( ).
 
-    LOOP AT it_aggregation INTO ls_aggregation.
+    LOOP AT it_aggregation INTO DATA(ls_aggregation).
       IF ls_aggregation-aggregation IS INITIAL.
         ls_aggregation-aggregation = if_salv_c_aggregation=>total.
       ENDIF.
@@ -1041,10 +1015,6 @@ ENDMETHOD.
 
 
 METHOD set_columns.
-  FIELD-SYMBOLS <fs_column> LIKE LINE OF it_column.
-  FIELD-SYMBOLS <fs_technical> LIKE LINE OF it_technical.
-  FIELD-SYMBOLS <fs_edited_fields> LIKE LINE OF mt_edited_fields.
-  FIELD-SYMBOLS <fs_edited_f4> LIKE LINE OF mt_edited_f4.
 
   mo_columns = mo_alv->get_columns( ).
   mo_columns->set_optimize( iv_optimize_width ).
@@ -1057,14 +1027,14 @@ METHOD set_columns.
     add_column_style( iv_style_column ).
   ENDIF.
 
-  LOOP AT it_technical ASSIGNING <fs_technical>.
+  LOOP AT it_technical ASSIGNING FIELD-SYMBOL(<fs_technical>).
     add_column_technical( iv_columnname = <fs_technical>-columnname ).
   ENDLOOP.
 
   CLEAR: mt_edited_fields,
          mt_edited_f4.
 
-  LOOP AT it_column ASSIGNING <fs_column>.
+  LOOP AT it_column ASSIGNING FIELD-SYMBOL(<fs_column>).
     add_column(
       iv_columnname      = <fs_column>-columnname
       iv_type            = <fs_column>-type
@@ -1086,13 +1056,11 @@ METHOD set_columns.
       iv_optimize        = <fs_column>-optimize
       iv_column_position = <fs_column>-column_position ).
 
-    IF <fs_column>-edit EQ if_salv_c_bool_sap=>true.
-      APPEND INITIAL LINE TO mt_edited_fields ASSIGNING <fs_edited_fields>.
-      MOVE-CORRESPONDING <fs_column> TO <fs_edited_fields>.
+    IF <fs_column>-edit = if_salv_c_bool_sap=>true.
+      APPEND CORRESPONDING #( <fs_column> ) TO mt_edited_fields.
 
-      IF <fs_column>-f4 EQ if_salv_c_bool_sap=>true.
-        APPEND INITIAL LINE TO mt_edited_f4 ASSIGNING <fs_edited_f4>.
-        MOVE-CORRESPONDING <fs_column> TO <fs_edited_f4>.
+      IF <fs_column>-f4 = if_salv_c_bool_sap=>true.
+        APPEND CORRESPONDING #( <fs_column> ) TO mt_edited_f4.
       ENDIF.
     ENDIF.
   ENDLOOP.
@@ -1103,11 +1071,10 @@ ENDMETHOD.
 
 
 METHOD set_custom_functions.
-  FIELD-SYMBOLS: <fs_user_command> LIKE LINE OF it_user_command.
 
   IF mv_refresh = if_salv_c_bool_sap=>false.
 
-    LOOP AT it_user_command ASSIGNING <fs_user_command>.
+    LOOP AT it_user_command ASSIGNING FIELD-SYMBOL(<fs_user_command>).
       add_function( iv_function = <fs_user_command>-function
                     iv_icon     = |{ <fs_user_command>-icon }|
                     iv_text     = |{ <fs_user_command>-text }|
@@ -1122,7 +1089,7 @@ ENDMETHOD.
 
 
 METHOD set_display_settings.
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
     mo_display_settings = mo_alv->get_display_settings( ).
 
@@ -1136,15 +1103,17 @@ METHOD set_display_settings.
 ENDMETHOD.
 
 
-METHOD SET_DROPDOWNS.
-  FIELD-SYMBOLS <fs_dropdown> LIKE LINE OF it_dropdown.
+METHOD set_dropdowns.
 
-  CHECK it_dropdown[] IS NOT INITIAL.
+  IF it_dropdown[] IS INITIAL.
+    ro_salv = me.
+    RETURN.
+  ENDIF.
 
   mo_functional_settings = mo_alv->get_functional_settings( ).
   mo_dropdowns = mo_functional_settings->get_dropdowns( ).
 
-  LOOP AT it_dropdown ASSIGNING <fs_dropdown>.
+  LOOP AT it_dropdown ASSIGNING FIELD-SYMBOL(<fs_dropdown>).
     add_dropdown( iv_handle  = <fs_dropdown>-handle
                   it_values = <fs_dropdown>-values[] ).
   ENDLOOP.
@@ -1238,9 +1207,8 @@ ENDMETHOD.
 
 
 METHOD set_end_of_page.
-  DATA lo_footer TYPE REF TO cl_salv_form_layout_grid.
 
-  lo_footer = io_footer->get_result( ).
+  DATA(lo_footer) = io_footer->get_result( ).
 
   mo_alv->set_end_of_list( lo_footer ).
   mo_alv->set_end_of_list_print( lo_footer ).
@@ -1250,12 +1218,11 @@ METHOD set_end_of_page.
 ENDMETHOD.
 
 
-METHOD SET_FILTERS.
-  FIELD-SYMBOLS: <fs_filter> LIKE LINE OF it_filter.
+METHOD set_filters.
 
   mo_filters = mo_alv->get_filters( ).
 
-  LOOP AT it_filter ASSIGNING <fs_filter>.
+  LOOP AT it_filter ASSIGNING FIELD-SYMBOL(<fs_filter>).
     add_filter( iv_columnname = <fs_filter>-columnname
                 iv_sign       = <fs_filter>-sign
                 iv_option     = <fs_filter>-option
@@ -1270,7 +1237,7 @@ ENDMETHOD.
 
 METHOD set_handlers.
 
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
     mo_events = mo_alv->get_event( ).
 
@@ -1285,15 +1252,17 @@ METHOD set_handlers.
 ENDMETHOD.
 
 
-METHOD SET_HYPERLINKS.
-  FIELD-SYMBOLS <fs_hyperlink> LIKE LINE OF it_hyperlink.
+METHOD set_hyperlinks.
 
-  CHECK it_hyperlink[] IS NOT INITIAL.
+  IF it_hyperlink[] IS INITIAL.
+    ro_salv = me.
+    RETURN.
+  ENDIF.
 
   mo_functional_settings = mo_alv->get_functional_settings( ).
   mo_hyperlinks = mo_functional_settings->get_hyperlinks( ).
 
-  LOOP AT it_hyperlink ASSIGNING <fs_hyperlink>.
+  LOOP AT it_hyperlink ASSIGNING FIELD-SYMBOL(<fs_hyperlink>).
     add_hyperlink( iv_handle    = <fs_hyperlink>-handle
                    iv_hyperlink = <fs_hyperlink>-hyperlink ).
   ENDLOOP.
@@ -1304,11 +1273,10 @@ ENDMETHOD.
 
 
 METHOD set_layout.
-  DATA layout_key TYPE salv_s_layout_key.
 
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
-    layout_key-report = sy-cprog.
+    DATA(layout_key) = VALUE salv_s_layout_key( report = sy-cprog ).
 
     mo_layout = mo_alv->get_layout( ).
     mo_layout->set_key( layout_key ).
@@ -1341,8 +1309,7 @@ METHOD SET_PARAMETERS_EDITING.
 ENDMETHOD.
 
 
-METHOD SET_PF_STATUS.
-  DATA lo_exception TYPE REF TO cx_salv_no_check.
+METHOD set_pf_status.
 
   TRY.
       mo_alv->set_screen_status(
@@ -1351,7 +1318,7 @@ METHOD SET_PF_STATUS.
         set_functions = iv_functions ).
 
     CATCH cx_salv_method_not_supported
-          cx_salv_object_not_found INTO lo_exception.
+          cx_salv_object_not_found INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -1363,8 +1330,7 @@ METHOD SET_PF_STATUS.
 ENDMETHOD.
 
 
-METHOD SET_POPUP.
-  DATA lo_exception TYPE REF TO cx_salv_no_check.
+METHOD set_popup.
 
   TRY.
       mo_alv->set_screen_popup( start_column = iv_start_column
@@ -1372,7 +1338,7 @@ METHOD SET_POPUP.
                                 end_column   = iv_end_column
                                 end_line     = iv_end_line ).
 
-    CATCH cx_salv_method_not_supported INTO lo_exception.
+    CATCH cx_salv_method_not_supported INTO DATA(lo_exception).
       RAISE EXCEPTION TYPE zcx_salv
         EXPORTING
           error_text = |{ lo_exception->get_text( ) }|
@@ -1386,7 +1352,7 @@ ENDMETHOD.
 
 METHOD set_selections.
 
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
     mo_selections = mo_alv->get_selections( ).
     mo_selections->set_selection_mode( iv_mode ).
@@ -1399,13 +1365,12 @@ ENDMETHOD.
 
 
 METHOD set_sorts.
-  FIELD-SYMBOLS <fs_sort> LIKE LINE OF it_sort.
 
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
     mo_sorts = mo_alv->get_sorts( ).
 
-    LOOP AT it_sort ASSIGNING <fs_sort>.
+    LOOP AT it_sort ASSIGNING FIELD-SYMBOL(<fs_sort>).
       add_sort( iv_columnname = <fs_sort>-columnname
                 iv_position   = <fs_sort>-position
                 iv_descending = <fs_sort>-descending
@@ -1421,13 +1386,12 @@ METHOD set_sorts.
 ENDMETHOD.
 
 
-METHOD SET_SPECIFIC_GROUPS.
-  FIELD-SYMBOLS <fs_specific_group> LIKE LINE OF it_specific_group.
+METHOD set_specific_groups.
 
   mo_functional_settings = mo_alv->get_functional_settings( ).
   mo_specific_groups = mo_functional_settings->get_specific_groups( ).
 
-  LOOP AT it_specific_group ASSIGNING <fs_specific_group>.
+  LOOP AT it_specific_group ASSIGNING FIELD-SYMBOL(<fs_specific_group>).
     add_specific_group( iv_id   = <fs_specific_group>-id
                         iv_text = <fs_specific_group>-text ).
   ENDLOOP.
@@ -1439,7 +1403,7 @@ ENDMETHOD.
 
 METHOD set_standard_toolbar.
 
-  IF mv_refresh EQ if_salv_c_bool_sap=>false.
+  IF mv_refresh = if_salv_c_bool_sap=>false.
 
     CASE iv_profile.
       WHEN cs_standart_tb_profile-minimum.
@@ -1725,13 +1689,12 @@ METHOD SET_TOOLBAR.
 ENDMETHOD.
 
 
-METHOD SET_TOOLTIPS.
-  FIELD-SYMBOLS <fs_tooltip> LIKE LINE OF it_tooltip.
+METHOD set_tooltips.
 
   mo_functional_settings = mo_alv->get_functional_settings( ).
   mo_tooltips = mo_functional_settings->get_tooltips( ).
 
-  LOOP AT it_tooltip ASSIGNING <fs_tooltip>.
+  LOOP AT it_tooltip ASSIGNING FIELD-SYMBOL(<fs_tooltip>).
     add_tooltip( iv_type    = <fs_tooltip>-type
                  iv_value   = <fs_tooltip>-value
                  iv_tooltip = <fs_tooltip>-tooltip ).
@@ -1743,9 +1706,8 @@ ENDMETHOD.
 
 
 METHOD set_top_of_page.
-  DATA lo_header TYPE REF TO cl_salv_form_layout_grid.
 
-  lo_header = io_header->get_result( ).
+  DATA(lo_header) = io_header->get_result( ).
 
   mo_alv->set_top_of_list( lo_header ).
   mo_alv->set_top_of_list_print( lo_header ).

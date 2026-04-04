@@ -35,7 +35,7 @@ CLASS zcl_salv_editing IMPLEMENTATION.
 
   METHOD class_constructor.
 
-    CREATE OBJECT mo_salv_editing TYPE zcl_salv_editing.
+    mo_salv_editing = NEW #( ).
 
   ENDMETHOD.
 
